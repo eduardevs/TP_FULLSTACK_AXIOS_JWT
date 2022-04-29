@@ -26,7 +26,25 @@ if ($query->execute()) {
     $user = $query->fetch();
     if ($user && password_verify($password, $user->getPassword())) {
 
-        CookieHelper::setCookie($user->getToken(), $user->getUsername());
+
+
+        // $res = openssl_pkey_new();
+
+        // openssl_pkey_export_to_file($res, './rsaPrivateKey.key');
+
+        $privateKeyFile = file_get_contents('./rsaPrivateKey.key');
+
+        $privateKey = openssl_pkey_get_private($privateKeyFile);
+
+        $publicKey = openssl_pkey_get_details($privateKey)['key'];
+
+        // date DateTimeImmutable
+        //
+        // jwt 
+
+
+        CookieHelper::setCookie('', $user->getUsername());
+
 
         echo json_encode([
             'status' => 'success',

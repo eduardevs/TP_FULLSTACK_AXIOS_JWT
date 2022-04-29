@@ -1,7 +1,8 @@
-import React, {useState} from "react";
-import {LocalBlogPost} from "../Interface/LocalBlogPost";
-import usePostBlog from "../Hook/usePostBlog";
-import {BlogInterface, LoginResponseInterface} from "../Interface/ResponsesInterfaces";
+import React, { useState } from 'react'
+
+import usePostBlog from '../Hook/usePostBlog'
+import { LocalBlogPost } from '../Interface/LocalBlogPost'
+import { LoginResponseInterface } from '../Interface/ResponsesInterfaces'
 
 interface BlogFormPropsInterface {
     loggedUser: LoginResponseInterface,

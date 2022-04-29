@@ -1,17 +1,19 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {useEffect, useState} from "react";
-import useLogin from "./Hook/useLogin";
-import {BlogInterface, LoginResponseInterface} from "./Interface/ResponsesInterfaces";
-import {LocalUserInterface} from "./Interface/LocalUserInterface";
-import LoginForm from "./Component/LoginForm";
-import HideIfLogged from "./Component/HideIfLogged";
-import useRegister from "./Hook/useRegister";
-import useGetBlogList from "./Hook/useGetBlogList";
-import BlogList from "./Component/BlogList";
-import HideIfNotLogged from "./Component/HideIfNotLogged";
-import BlogForm from "./Component/BlogForm";
-import useGetCookies from "./Hook/useGetCookies";
-import useEraseCookie from "./Hook/useEraseCookie";
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import { useEffect, useState } from 'react'
+
+import BlogForm from './Component/BlogForm'
+import BlogList from './Component/BlogList'
+import HideIfLogged from './Component/HideIfLogged'
+import HideIfNotLogged from './Component/HideIfNotLogged'
+import LoginForm from './Component/LoginForm'
+import useEraseCookie from './Hook/useEraseCookie'
+import useGetBlogList from './Hook/useGetBlogList'
+import useGetCookies from './Hook/useGetCookies'
+import useLogin from './Hook/useLogin'
+import useRegister from './Hook/useRegister'
+import { LocalUserInterface } from './Interface/LocalUserInterface'
+import { BlogInterface, LoginResponseInterface } from './Interface/ResponsesInterfaces'
 
 export default function App() {
     const [loggedUser, setLoggedUser] = useState<LoginResponseInterface>({
@@ -30,6 +32,7 @@ export default function App() {
     const getBlogList = useGetBlogList();
     const cookies = useGetCookies();
     const eraseCookie = useEraseCookie();
+    const [decodedToken, setDecodedToken] = useState()
 
     useEffect(() => {
         if (Object.keys(cookies).includes('hetic_token') && Object.keys(cookies).includes('hetic_username')) {
@@ -54,6 +57,8 @@ export default function App() {
         }
     }, [localUser])
 
+    
+
     useEffect(() => {
         getBlogList()
             .then(data => {
@@ -62,6 +67,36 @@ export default function App() {
             })
     }, [needsUpdate])
 
+
+    // useEffect(() => {
+    // //    console.log({loggedUser})
+    
+    // //    const {token} = loggedUser
+
+    // //     if(token != '') {
+    // //        let decodedToken = jwtDecode(token)
+    // //         // setDecodedToken(encoded)
+
+    // //         console.log("Decoded Token", decodedToken);
+    // //         let currentDate = new Date();
+          
+    // //         // JWT exp is in seconds
+    // //         if (decodedToken.exp * 1000 < currentDate.getTime()) {
+    // //           console.log("Token expired.");
+    // //         } else {
+    // //           console.log("Valid token");   
+    // //           result = true;
+    // //         }
+          
+    // //     } 
+     
+      
+    //     console.log('current token: '+ decodedToken)
+
+       
+    // }, [loggedUser])
+
+    
     const handleDisconnect = () => {
         setLoggedUser({
             status: 'error',
@@ -79,6 +114,7 @@ export default function App() {
 
             <HideIfNotLogged loggedUser={loggedUser}>
                 <button className='btn btn-danger d-block mx-auto mb-3' onClick={handleDisconnect}>Disconnect</button>
+
                 <BlogForm loggedUser={loggedUser} setNeedsUpdate={setNeedsUpdate}/>
             </HideIfNotLogged>
 
@@ -86,3 +122,6 @@ export default function App() {
         </div>
     )
 }
+
+// TODO: COMPOSANT POUR AFFICHER LES INFO DE L'UTILISATEUR, 
+// TODO: 1) RECUPERATION DES DONNES DE L'UTILISATEUR
